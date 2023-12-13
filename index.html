@@ -1,23 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.js"></script>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <meta charset="utf-8" />
 
-  </head>
-  <body>
-    <input type="button" id="restartButton" value="Restart">
-    <script src="main.js"></script>
-    <span>Amplitude</span>
-    <input type="range" id="amplitudeInput" min="1" max="100" value="10"/><span id="amplitudeValue">1270</span></p>
-    <span>Omega</span>
-    <input type="range" id="omegaInput" min="0" max="100" value="1"/><span id="omegaValue">1</span><p>
+<head>
+  <title>Model Radaru</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.js"></script>
+  <script src=https://cdnjs.cloudflare.com/ajax/libs/mathjs/3.3.0/math.min.js></script>
+  <script src=src/constants.js></script>
+  <script src=src/variables.js></script>
+  <script src=src/environment.js></script>
+  <script src=src/radar.js></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <meta charset="utf-8" />
+
+</head>
+
+<body>
+  <input type="button" id="restartButton" value="Restart">
+  <script src="src/main.js"></script>
+  <div id="canvas" style="display:inline-block; border:solid;"></div>
+  <span>Amplitude</span>
+  <input type="range" id="amplitudeInput" min="1" max="100" value="10" /><span id="amplitudeValue">1270</span></p>
+  <span>Omega</span>
+  <input type="range" id="omegaInput" min="0" max="100" value="1" /><span id="omegaValue">1</span>
+  <p>
     <span>Spacing</span>
-    <input type="range" id="spacingInput" min="1" max="10" value="1"/><span id="spacingValue">1</span><p>
+    <input type="range" id="spacingInput" min="1" max="10" value="1" /><span id="spacingValue">1</span>
+  <p>
     <span>Omega Radar</span>
-    <input type="range" id="omegaRadarInput" min="0" max="360" value="1"/><span id="omegaRadarValue">1</span><p>
+    <input type="range" id="omegaRadarInput" min="0" max="360" value="1" /><span id="omegaRadarValue">1</span>
+  <p>
     <span>Speakers</span>
-    <input type="range" id="speakersCountInput" min="1" max="127" value="10"/><span id="speakersCountValue">10</span><p>
-  </body>
+    <input type="range" id="speakersCountInput" min="1" max="127" value="10" /><span id="speakersCountValue">10</span>
+  <p>
+</body>
+
 </html>
