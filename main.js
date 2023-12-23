@@ -82,10 +82,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function wallFromDirection(direction) {
 	return [
-		createVector(SIZE/2 - speakerSpacing * speakersCount, SIZE/2 + 10),
-		createVector(SIZE/2 - speakerSpacing * speakersCount, SIZE/2 + 1),
-		createVector(SIZE/2 + speakerSpacing * speakersCount, SIZE/2 + 10),
-		createVector(SIZE/2 + speakerSpacing * speakersCount, SIZE/2 + 1)
+		createVector(SIZE / 2 - speakerSpacing * speakersCount, SIZE / 2 + 10),
+		createVector(SIZE / 2 - speakerSpacing * speakersCount, SIZE / 2 + 1),
+		createVector(SIZE / 2 + speakerSpacing * speakersCount, SIZE / 2 + 10),
+		createVector(SIZE / 2 + speakerSpacing * speakersCount, SIZE / 2 + 1)
 	];
 }
 
@@ -161,8 +161,6 @@ function draw() {
 				u[x][y] = A * sin(omega * t);
 			}
 		}
-
-		for (let x = )
 
 		let wall = createVector(SIZE / 2, SIZE / 2);
 		for (let speaker = 0; speaker < speakersCount * 2; speaker++) {

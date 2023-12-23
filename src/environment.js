@@ -4,9 +4,6 @@ const BLUE = 2;
 const ALPHA = 3;
 
 class Environment {
-    static positiveAmplitude = [0, 255, 0];
-    static negativeAmplitude = [255, 0, 0];
-
     #previousValues;
     #values;
     #nextValues;
@@ -57,21 +54,16 @@ class Environment {
 
         this.#previousValues = this.#values;
         this.#values = this.#nextValues;
+        this.#nextValues = math.matrix(math.zeros(this.width, this.height));
     }
 
     draw(img) {
 
         img.loadPixels();
-        this.#values.forEach((value, [x, y], _) => {
-            let index = (y * img.width + x) * 4;
-
-            let colorUsed = value >= 0 ? Environment.positiveAmplitude : Environment.negativeAmplitude;
-            img.pixels[index + RED] = colorUsed[RED];
-            img.pixels[index + GREEN] = colorUsed[GREEN];
-            img.pixels[index + BLUE] = colorUsed[BLUE];
-
-            img.pixels[index + ALPHA] = Math.abs(value);
-        });
+        let values = this.#values.valueOf();
+        for (let x = 0; x < Constants.WIDTH; ++x)
+            for (let y = 0; y < Constants.HEIGHT; ++y)
+                img.set(x, y, 127 + values[x][y]);
         img.updatePixels();
     }
 }
