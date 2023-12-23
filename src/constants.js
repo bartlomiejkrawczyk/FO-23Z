@@ -1,10 +1,12 @@
 class Constants {
-    static WIDTH = 256
-    static HEIGHT = 256
+    static WIDTH = 256;
+    static HEIGHT = 256;
 
     static AMPLITUDE = 127;
 
-    static SCALE = 2
+    static SCALE = 2;
+
+    static ROTATION = 0.5;
 
     static get windowWidth() {
         return Constants.WIDTH * Constants.SCALE;

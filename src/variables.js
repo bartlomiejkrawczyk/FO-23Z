@@ -2,9 +2,9 @@ class Variables {
 
     static #stepsPerFrame = 5;
     static #dt = 1.0 / 60 / Variables.#stepsPerFrame;
-    static #velocity = (1.0 / (2 * Math.PI)) * (2 * 1.0);
+    static #velocity = (10.0 / (2 * Math.PI)) * (2 * 1.0) / 10; // (omega / (2 * Math.PI)) * (2 * speakerSpacing);
     static #c2 = Variables.#calculateC2();
-    static #damping = 0.2;
+    static #damping = 0.4;
     static #time = 0;
 
     static get stepsPerFrame() {

@@ -16,6 +16,10 @@ class Environment {
         this.init();
     }
 
+    getValue(x, y) {
+        return this.#values.valueOf()[x][y];
+    }
+
     setValue(x, y, v) {
         this.#values.valueOf()[x][y] = v;
     }
