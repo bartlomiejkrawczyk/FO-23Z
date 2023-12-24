@@ -2,9 +2,12 @@ class Variables {
 
     static #stepsPerFrame = 5;
     static #dt = 1.0 / 60 / Variables.#stepsPerFrame;
-    static #velocity = (10.0 / (2 * Math.PI)) * (2 * 1.0) / 10; // (omega / (2 * Math.PI)) * (2 * speakerSpacing);
+    static #omega = 40.0;
+    static #speakerSpacing = 2.0;
+    static #velocityMultiplier = 1.0 / this.#omega;
+    static #velocity = Variables.#calculateVelocity();
     static #c2 = Variables.#calculateC2();
-    static #damping = 0.4;
+    static #damping = 0.8;
     static #time = 0;
 
     static get stepsPerFrame() {
@@ -13,6 +16,28 @@ class Variables {
 
     static get dt() {
         return Variables.#dt;
+    }
+
+    static get omega() {
+        return Variables.#omega;
+    }
+
+    static set omega(value) {
+        Variables.#omega = value;
+        Variables.#recalculateValues();
+    }
+
+    static get speakerSpacing() {
+        return Variables.#speakerSpacing;
+    }
+
+    static set speakerSpacing(value) {
+        Variables.#speakerSpacing = value;
+        Variables.#recalculateValues();
+    }
+
+    static get velocity() {
+        return Variables.#velocity;
     }
 
     static get c2() {
@@ -31,7 +56,12 @@ class Variables {
     }
 
     static #recalculateValues() {
+        Variables.#velocity = Variables.#calculateVelocity;
         Variables.#c2 = Variables.#calculateC2();
+    }
+
+    static #calculateVelocity() {
+        return Variables.#omega / (2 * Math.PI) * (2 * Variables.#speakerSpacing) * Variables.#velocityMultiplier;
     }
 
     static #calculateC2() {
