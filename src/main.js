@@ -1,5 +1,5 @@
 const environment = new Environment(Constants.WIDTH, Constants.HEIGHT)
-const radar = new Radar(Constants.WIDTH / 2, Constants.HEIGHT / 2);
+const radar = new Radar(Constants.WIDTH / 4, Constants.HEIGHT / 4);
 
 let img;
 

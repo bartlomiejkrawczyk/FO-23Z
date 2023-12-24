@@ -50,12 +50,12 @@ class Radar {
             if (measurement > this.#currentMax && this.#duration > 50 * Variables.dt) {
                 this.#currentMax = measurement;
                 this.#durationMax = this.#duration;
-                console.log("Duration for " + this.#currentMax + " is " + this.#duration);
+                console.log("Duration for " + this.#currentMax + " is " + this.#duration + " it equals to " + (this.#duration - (1.0 / Variables.omega) * Math.PI) * Variables.velocity);
             }
             if (measurement < this.#currentMin && this.#duration > 50 * Variables.dt) {
                 this.#currentMin = measurement;
                 this.#durationMin = this.#duration;
-                console.log("Duration for " + this.#currentMin + " is " + this.#duration);
+                console.log("Duration for " + this.#currentMin + " is " + this.#duration + " it equals to " + (this.#duration) * Variables.velocity);
             }
             this.#timeout = math.max(this.#timeout, 0);
             if (this.#timeout == 0) {

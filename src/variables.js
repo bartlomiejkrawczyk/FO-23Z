@@ -1,14 +1,17 @@
 class Variables {
 
     static #stepsPerFrame = 5;
-    static #dt = 1.0 / 60 / Variables.#stepsPerFrame;
-    static #omega = 40.0;
+    static #dt = 1.0 / 60.0 / Variables.#stepsPerFrame;
+    static #omega = 80.0;
     static #speakerSpacing = 2.0;
+    /**
+     * Magic number so that the simulation works correctly
+     */
     static #velocityMultiplier = 1.0 / this.#omega;
     static #velocity = Variables.#calculateVelocity();
     static #c2 = Variables.#calculateC2();
     static #damping = 0.8;
-    static #time = 0;
+    static #time = 0.0;
 
     static get stepsPerFrame() {
         return Variables.#stepsPerFrame;
@@ -56,7 +59,7 @@ class Variables {
     }
 
     static #recalculateValues() {
-        Variables.#velocity = Variables.#calculateVelocity;
+        Variables.#velocity = Variables.#calculateVelocity();
         Variables.#c2 = Variables.#calculateC2();
     }
 
