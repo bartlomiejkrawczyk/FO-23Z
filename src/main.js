@@ -20,27 +20,35 @@ function _update() {
     }
 }
 
+function handleMousePress() {
+    let centerX = Math.round(mouseX / Constants.SCALE);
+    let centerY = Math.round(mouseY / Constants.SCALE);
+    console.log(centerX);
+    for (let x = 0; x < Constants.CURSOR_SIZE / 2; ++x) {
+        for (let y = 0; y < Constants.CURSOR_SIZE / 2; ++y) {
+            environment.addObstacle(centerX + x, centerY + y);
+            environment.addObstacle(centerX + x, centerY - y);
+            environment.addObstacle(centerX - x, centerY + y);
+            environment.addObstacle(centerX - x, centerY - y);
+        }
+    }
+}
+
 function draw() {
-    _update();
 
     if (mouseIsPressed) {
-        let square = {
-            x: mouseX - 5,
-            y: mouseY - 5
-        };
-        squares.push(square);
+        handleMousePress();
+        // environment.init();
+        // radar.reset();
         // TU DODAĆ ŻEBY W TYM MIEJSCU BYŁY ZERA NA ENV
+    } else {
+        _update();
     }
 
     environment.draw(img);
     image(img, 0, 0, Constants.windowWidth, Constants.windowHeight);
 
-    for (let i = 0; i < squares.length; i++) {
-        noStroke();
-        fill(200, 0, 100, 100);
-        rect(squares[i].x, squares[i].y, 10, 10);
-    }
     noStroke();
     fill(200, 0, 100, 100);
-    rect(mouseX - 5 , mouseY - 5, 10, 10);
+    rect(mouseX - 5, mouseY - 5, 10, 10);
 }

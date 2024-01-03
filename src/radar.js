@@ -28,6 +28,17 @@ class Radar {
         this.impuls();
     }
 
+    reset() {
+        this.#impulsDuration = 0;
+        this.#awaitSignal = false;
+        this.#duration = 0;
+        this.#durationMin = 0;
+        this.#currentMin = 0;
+        this.#durationMax = 0;
+        this.#currentMax = 0;
+        this.#timeout = 0;
+    }
+
     update(environment) {
         // Rotate the dx, dy vector based on the rotation value
         const cosRotation = cos(this.#rotation);

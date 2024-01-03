@@ -5,6 +5,7 @@ class Constants {
     static AMPLITUDE = 127;
 
     static SCALE = 2;
+    static CURSOR_SIZE = 5;
 
     static ROTATION = Math.PI / 2;
 
