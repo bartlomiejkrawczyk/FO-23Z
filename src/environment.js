@@ -17,14 +17,23 @@ class Environment {
     }
 
     getValue(x, y) {
+        if (x < 0 || x >= width || y < 0 || y >= height) {
+            return;
+        }
         return this.#values.valueOf()[x][y];
     }
 
     setValue(x, y, v) {
+        if (x < 0 || x >= width || y < 0 || y >= height) {
+            return;
+        }
         this.#values.valueOf()[x][y] = v;
     }
 
     addObstacle(x, y) {
+        if (x < 0 || x >= width || y < 0 || y >= height) {
+            return;
+        }
         this.#obstacles.valueOf()[x][y] = 1;
     }
 
@@ -78,8 +87,8 @@ class Environment {
         img.loadPixels();
         let values = this.#values.valueOf();
         let obstacles = this.#obstacles.valueOf();
-        for (let x = 0; x < Constants.WIDTH; ++x)
-            for (let y = 0; y < Constants.HEIGHT; ++y)
+        for (let x = 0; x < this.width; ++x)
+            for (let y = 0; y < this.height; ++y)
                 if (obstacles[x][y]) {
                     img.set(x, y, [200, 0, 100, 255]);
                 } else {
