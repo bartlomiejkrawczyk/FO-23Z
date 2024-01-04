@@ -18,6 +18,8 @@ class Radar {
     #currentMax;
     #timeout;
 
+    #obstacles;
+
     constructor(x, y, rotation = 0.0, amplitude = Constants.AMPLITUDE, waveEmitters = Radar.DEFAULT_WAVE_EMITTERS) {
         this.#x = Math.round(x);
         this.#y = Math.round(y);
@@ -25,7 +27,8 @@ class Radar {
         this.#waveEmitters = waveEmitters;
         this.#amplitude = amplitude;
         this.#impulsDuration = 0;
-        this.initiate_impuls();
+        this.initiateImpuls();
+        this.#obstacles = [];
     }
 
     reset() {
@@ -37,19 +40,15 @@ class Radar {
         this.#durationMax = 0;
         this.#currentMax = 0;
         this.#timeout = 0;
-        this.initiate_impuls();
+        this.initiateImpuls();
     }
 
     update(environment) {
         if (this.#awaitSignal) {
             this.#timeout -= Variables.dt;
-            this.#duration += Variables.dt;
             this.detect(environment);
-            this.#timeout = math.max(this.#timeout, 0);
-            if (this.#timeout == 0) {
-                this.#awaitSignal = false;
-                this.rotate();
-                this.initiate_impuls();
+            if (this.#timeout <= 0) {
+                this.enterImpulsMode();
             }
         } else {
             if (this.#impulsDuration > 0) {
@@ -66,6 +65,7 @@ class Radar {
     }
 
     detect(environment) {
+        this.#duration += Variables.dt;
         let measurement = environment.getValue(this.#x, this.#y);
         if (measurement > this.#currentMax && this.#duration > 50 * Variables.dt) {
             this.#currentMax = measurement;
@@ -79,7 +79,20 @@ class Radar {
         }
     }
 
-    initiate_impuls() {
+    enterImpulsMode() {
+        this.#awaitSignal = false;
+        this.rotate();
+        this.initiateImpuls();
+    }
+
+    rotate() {
+        this.#rotation += Constants.ROTATION;
+        if (this.#rotation > 2 * Math.PI) {
+            this.#rotation = this.#rotation - 2 * Math.PI;
+        }
+    }
+
+    initiateImpuls() {
         console.log("Impuls");
         this.#impulsDuration = 2 * (1.0 / Variables.omega) * Math.PI;
     }
@@ -121,24 +134,21 @@ class Radar {
         // Rotate the dx, dy vector based on the rotation value
         const cosRotation = cos(this.#rotation);
         const tanRotation = tan(this.#rotation);
+        const radarSize = Math.round(this.#waveEmitters * Variables.speakerSpacing);
         // Set values to 0 for points under the line with the specified rotation
-        for (let x = 0; x < Constants.WIDTH; ++x) {
-            for (let y = 0; y < Constants.HEIGHT; ++y) {
+        for (let x = this.#x - radarSize; x < this.#x + radarSize; ++x) {
+            for (let y = this.#y - radarSize; y < this.#y + radarSize; ++y) {
                 // Calculate the y-coordinate of the line for the given x-coordinate and rotation
                 const lineY = this.#y + tanRotation * (x - this.#x);
 
                 // If the point is on the opposite side of the line, set its value to 0
-                if ((y > lineY && cosRotation > 0) || (y < lineY && cosRotation < 0)) {
+                if (
+                    ((y > lineY && cosRotation > 0) || (y < lineY && cosRotation < 0))
+                    && Math.sqrt(Math.pow(x - this.#x, 2) + Math.pow(y - this.#y, 2)) < radarSize
+                ) {
                     environment.setValue(x, y, 0);
                 }
             }
-        }
-    }
-
-    rotate() {
-        this.#rotation += Constants.ROTATION;
-        if (this.#rotation > 2 * Math.PI) {
-            this.#rotation = this.#rotation - 2 * Math.PI;
         }
     }
 }
