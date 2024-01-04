@@ -151,4 +151,11 @@ class Radar {
             }
         }
     }
+
+    draw() {
+        const radarSize = Math.round(this.#waveEmitters * Variables.speakerSpacing * Constants.SCALE * 2);
+        fill(0, 128, 0, 255);
+        arc(this.#x * Constants.SCALE, this.#y * Constants.SCALE, radarSize, radarSize, this.#rotation, this.#rotation + PI);
+        noFill();
+    }
 }

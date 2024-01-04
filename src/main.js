@@ -13,7 +13,7 @@ function setup() {
 }
 
 function _update() {
-    if(!Variables.running)
+    if (!Variables.running)
         return;
     for (let i = 0; i < Variables.stepsPerFrame; i++) {
         radar.update(environment);
@@ -49,6 +49,7 @@ function draw() {
 
     environment.draw(img);
     image(img, 0, 0, Constants.windowWidth, Constants.windowHeight);
+    radar.draw();
 
     noStroke();
     fill(200, 0, 100, 100);
