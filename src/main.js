@@ -1,6 +1,6 @@
 const environment = new Environment(Constants.WIDTH, Constants.HEIGHT);
 const radar = new Radar(Constants.WIDTH / 4, Constants.HEIGHT / 4);
-const customEvents = new CustomEvents(environment);
+const customEvents = new CustomEvents(environment, radar);
 
 let img;
 let squares = [];
@@ -13,6 +13,8 @@ function setup() {
 }
 
 function _update() {
+    if(!Variables.running)
+        return;
     for (let i = 0; i < Variables.stepsPerFrame; i++) {
         radar.update(environment);
         environment.update();

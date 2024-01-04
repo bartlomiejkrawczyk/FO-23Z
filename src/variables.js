@@ -12,6 +12,7 @@ class Variables {
     static #c2 = Variables.#calculateC2();
     static #damping = 0.8;
     static #time = 0.0;
+    static #running = false;
 
     static get stepsPerFrame() {
         return Variables.#stepsPerFrame;

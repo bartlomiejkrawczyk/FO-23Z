@@ -37,6 +37,7 @@ class Radar {
         this.#durationMax = 0;
         this.#currentMax = 0;
         this.#timeout = 0;
+        this.impuls();
     }
 
     update(environment) {
