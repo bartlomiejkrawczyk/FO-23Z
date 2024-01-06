@@ -31,10 +31,12 @@ class Environment {
     }
 
     addObstacle(x, y) {
-        if (x < 0 || x >= width || y < 0 || y >= height) {
+        let obstacles = this.#obstacles.valueOf();
+        if (x < 0 || x >= obstacles.length || y < 0 || y >= obstacles[x].length) {
             return;
+        } else {
+            obstacles[x][y] = 1;
         }
-        this.#obstacles.valueOf()[x][y] = 1;
     }
 
     init() {

@@ -1,13 +1,13 @@
 class Variables {
 
     static #stepsPerFrame = 5;
-    static #dt = 1.0 / 60.0 / Variables.#stepsPerFrame;
+    static #dt = Variables.#calculateDt();
     static #omega = 80.0;
     static #speakerSpacing = 2.0;
     /**
      * Magic number so that the simulation works correctly
      */
-    static #velocityMultiplier = 1.0 / this.#omega;
+    static #velocityMultiplier = 1.0 / 128;
     static #velocity = Variables.#calculateVelocity();
     static #c2 = Variables.#calculateC2();
     static #damping = 0.8;
@@ -16,6 +16,10 @@ class Variables {
 
     static get stepsPerFrame() {
         return Variables.#stepsPerFrame;
+    }
+
+    static set stepsPerFrame(value) {
+        Variables.#stepsPerFrame = value;
     }
 
     static get dt() {
@@ -44,6 +48,10 @@ class Variables {
         return Variables.#velocity;
     }
 
+    static get velocityMultiplier() {
+        return Variables.#velocityMultiplier;
+    }
+
     static get c2() {
         return Variables.#c2;
     }
@@ -59,13 +67,26 @@ class Variables {
         return Variables.#time;
     }
 
+    static get running() {
+        return Variables.#running;
+    }
+
+    static set running(value) {
+        Variables.#running = value;
+    }
+
     static #recalculateValues() {
+        Variables.#dt = Variables.#calculateDt();
         Variables.#velocity = Variables.#calculateVelocity();
         Variables.#c2 = Variables.#calculateC2();
     }
 
     static #calculateVelocity() {
         return Variables.#omega / (2 * Math.PI) * (2 * Variables.#speakerSpacing) * Variables.#velocityMultiplier;
+    }
+
+    static #calculateDt() {
+        return 1.0 / 60.0 / Variables.#stepsPerFrame;
     }
 
     static #calculateC2() {

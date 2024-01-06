@@ -80,11 +80,11 @@ class Radar {
             this.#durationMin = this.#duration;
         }
         const distance = (
-            (this.#durationMax - (1.0 / Variables.omega) * Math.PI)
-            + (this.#durationMin - (0.0 / Variables.omega) * Math.PI)
+            (this.#durationMax - (1.5 / Variables.omega) * Math.PI)
+            + (this.#durationMin - (0.5 / Variables.omega) * Math.PI)
         ) / 2
             * Variables.velocity
-            * 128;
+            / Variables.velocityMultiplier;
         const dx = Math.round(sin(this.#rotation) * distance);
         const dy = Math.round(-cos(this.#rotation) * distance);
         this.#guess = {
@@ -122,7 +122,7 @@ class Radar {
         let y1 = this.#y;
         let x2 = this.#x;
         let y2 = this.#y;
-        const signalValue = this.#amplitude * sin(Variables.omega * this.#impulsDuration);
+        const signalValue = this.#amplitude * sin(Variables.omega * this.#impulsDuration + Math.PI / 2);
         for (let i = 0; i < this.#waveEmitters / 2; ++i) {
             environment.setValue(Math.round(x1), Math.round(y1), signalValue);
             environment.setValue(Math.round(x2), Math.round(y2), signalValue);
