@@ -7,7 +7,7 @@ class Constants {
     static SCALE = 2;
     static CURSOR_SIZE = 5;
 
-    static ROTATION = Math.PI / 2;
+    static ROTATION = Math.PI / 8 + 0.2;
 
     static get windowWidth() {
         return Constants.WIDTH * Constants.SCALE;

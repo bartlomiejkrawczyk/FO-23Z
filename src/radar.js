@@ -18,6 +18,8 @@ class Radar {
     #currentMax;
     #timeout;
 
+    #guess;
+
     #obstacles;
 
     constructor(x, y, rotation = 0.0, amplitude = Constants.AMPLITUDE, waveEmitters = Radar.DEFAULT_WAVE_EMITTERS) {
@@ -29,6 +31,10 @@ class Radar {
         this.#impulsDuration = 0;
         this.initiateImpuls();
         this.#obstacles = [];
+        this.#guess = {
+            x: this.#x,
+            y: this.#y
+        };
     }
 
     reset() {
@@ -48,6 +54,7 @@ class Radar {
             this.#timeout -= Variables.dt;
             this.detect(environment);
             if (this.#timeout <= 0) {
+                this.#obstacles.push(this.#guess);
                 this.enterImpulsMode();
             }
         } else {
@@ -59,9 +66,6 @@ class Radar {
         }
 
         this.clearEnvironmentBehindRadar(environment);
-
-        this.#impulsDuration -= Variables.dt;
-        this.#impulsDuration = math.max(this.#impulsDuration, 0);
     }
 
     detect(environment) {
@@ -70,12 +74,22 @@ class Radar {
         if (measurement > this.#currentMax && this.#duration > 50 * Variables.dt) {
             this.#currentMax = measurement;
             this.#durationMax = this.#duration;
-            // console.log("Duration for " + this.#currentMax + " is " + this.#duration + " it equals to " + (this.#duration - (1.0 / Variables.omega) * Math.PI) * Variables.velocity);
         }
         if (measurement < this.#currentMin && this.#duration > 50 * Variables.dt) {
             this.#currentMin = measurement;
             this.#durationMin = this.#duration;
-            // console.log("Duration for " + this.#currentMin + " is " + this.#duration + " it equals to " + (this.#duration) * Variables.velocity);
+        }
+        const distance = (
+            (this.#durationMax - (1.0 / Variables.omega) * Math.PI)
+            + (this.#durationMin - (0.0 / Variables.omega) * Math.PI)
+        ) / 2
+            * Variables.velocity
+            * 128;
+        const dx = Math.round(sin(this.#rotation) * distance);
+        const dy = Math.round(-cos(this.#rotation) * distance);
+        this.#guess = {
+            x: this.#x + dx,
+            y: this.#y + dy
         }
     }
 
@@ -93,7 +107,6 @@ class Radar {
     }
 
     initiateImpuls() {
-        console.log("Impuls");
         this.#impulsDuration = 2 * (1.0 / Variables.omega) * Math.PI;
     }
 
@@ -109,7 +122,7 @@ class Radar {
         let y1 = this.#y;
         let x2 = this.#x;
         let y2 = this.#y;
-        const signalValue = this.#amplitude * sin(Variables.omega * Variables.time);
+        const signalValue = this.#amplitude * sin(Variables.omega * this.#impulsDuration);
         for (let i = 0; i < this.#waveEmitters / 2; ++i) {
             environment.setValue(Math.round(x1), Math.round(y1), signalValue);
             environment.setValue(Math.round(x2), Math.round(y2), signalValue);
@@ -118,11 +131,13 @@ class Radar {
             y1 += dy;
             y2 -= dy;
         }
+        this.#impulsDuration -= Variables.dt;
+        this.#impulsDuration = math.max(this.#impulsDuration, 0);
     }
 
     enterDetectionMode() {
         this.#awaitSignal = true;
-        this.#timeout = math.max(Constants.WIDTH, Constants.HEIGHT) / Variables.velocity / 100;
+        this.#timeout = math.max(Constants.WIDTH, Constants.HEIGHT) / Variables.velocity / 128;
         this.#duration = 0;
         this.#durationMax = 0;
         this.#currentMax = 0;
@@ -156,6 +171,13 @@ class Radar {
         const radarSize = Math.round(this.#waveEmitters * Variables.speakerSpacing * Constants.SCALE * 2);
         fill(0, 128, 0, 255);
         arc(this.#x * Constants.SCALE, this.#y * Constants.SCALE, radarSize, radarSize, this.#rotation, this.#rotation + PI);
-        noFill();
+
+        stroke('red');
+        strokeWeight(10);
+        point(this.#guess.x * Constants.SCALE, this.#guess.y * Constants.SCALE);
+        stroke('blue');
+        this.#obstacles.forEach(function (obstacle) {
+            point(obstacle.x * Constants.SCALE, obstacle.y * Constants.SCALE);
+        })
     }
 }
