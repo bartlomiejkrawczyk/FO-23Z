@@ -13,11 +13,13 @@ class CustomEvents {
             document.getElementById('omegaInput').addEventListener('input', evt => {
                 Variables.omega = int(evt.target.value);
                 omegaValueDisplay.textContent = Variables.omega;
+                radar.softReset();
             });
 
             document.getElementById('speakerSpacingInput').addEventListener('input', evt => {
                 Variables.speakerSpacing = int(evt.target.value);
                 speakerSpacingValueDisplay.textContent = Variables.speakerSpacing;
+                radar.softReset();
             });
         });
 

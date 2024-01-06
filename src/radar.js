@@ -38,6 +38,15 @@ class Radar {
     }
 
     reset() {
+        this.#obstacles = [];
+        this.softReset();
+    }
+
+    softReset() {
+        this.#guess = {
+            x: this.#x,
+            y: this.#y
+        };
         this.#impulsDuration = 0;
         this.#awaitSignal = false;
         this.#duration = 0;
